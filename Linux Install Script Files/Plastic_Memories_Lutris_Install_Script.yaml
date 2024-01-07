@@ -1,0 +1,38 @@
+name: Plastic Memories
+game_slug: plastic-memories
+version: Manual Installer 
+slug: plastic-memories
+runner: wine
+
+script:
+    files:
+    - Base: N/A:Select PC Port.7z
+    - patch: https://github.com/Shaggythecat/PlaMemo-Manual-Files/releases/download/1/PC.7z
+    game:
+      exe: drive_c/Program Files (x86)/PlaMemo/Plastic Memories.exe
+      prefix: $GAMEDIR
+    installer:
+    - task:
+        arch: win64
+        name: create_prefix
+        prefix: $GAMEDIR
+    - task:
+        app: mf
+        name: winetricks
+        silent: true
+    - task:
+        app: xact
+        name: winetricks
+        silent: true
+    - extract:
+        dst: $GAMEDIR/drive_c/Program Files (x86)/
+        src: Base
+    - extract:
+        dst: $GAMEDIR/drive_c/Program Files (x86)/PlaMemo
+        src: patch
+      system: {}
+    wine:
+      dxvk: false
+      esync: false
+      fsync: false
+      vkd3d: true
